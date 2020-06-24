@@ -17,16 +17,16 @@ public class YahooSearchMain {
 		//INICIALIZACION DE SYSTEM.SETPROPERTY()
 	    WebDriver driver;
 		driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(30,  TimeUnit.SECONDS);
-		driver.get("http://www.yahoo.com");
-		WebElement searchBox = driver.findElement(By.id("uh-search-box"));
-		WebElement searchButton = driver.findElement(By.id("uh-search-button"));
+		driver.manage().timeouts().implicitlyWait(10,  TimeUnit.SECONDS);
+		driver.get("http://www.yahoo.com");		
+		WebElement searchBox = driver.findElement(By.id("header-search-input"));		
+		WebElement searchButton = driver.findElement(By.id("header-desktop-search-button"));
 		
 		searchBox.clear();
 		searchBox.sendKeys("Selenium");
 		searchButton.click();
 		
-		WebElement seleniumLink = driver.findElement(By.linkText("Selenium - Web Browser Automation"));
+		WebElement seleniumLink = driver.findElement(By.linkText("Downloads - Selenium"));
 		seleniumLink.click();
 		
 		ArrayList<String> windowIds = new ArrayList<String>(driver.getWindowHandles());
@@ -39,7 +39,9 @@ public class YahooSearchMain {
 		WebElement downloadLink = driver.findElement(By.linkText("Download"));
 		downloadLink.click();
 		
-		driver.close();
+		driver.close();	//Cierra una pestaña.
+		driver.quit(); // Cierra todo el navegador
+	
 
 	}
 

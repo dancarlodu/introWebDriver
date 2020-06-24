@@ -16,11 +16,11 @@ public class YahooSearchMethods {
 	static WebDriver driver;
 
 	public static void main(String[] args) {
-		setUp("chrome", "http://www.yahoo.com");
+		setUp("xxx", "http://www.yahoo.com");
 
 		searchYahoo("Selenium");
 		
-		clickLink("Selenium - Web Browser Automation");
+		clickLink("Downloads - Selenium");
 
 		selectPopUp();
 
@@ -48,8 +48,8 @@ public class YahooSearchMethods {
 
 	private static void searchYahoo(String topic) {
 		//busqueda
-		WebElement searchBox = driver.findElement(By.id("uh-search-box"));
-		WebElement searchButton = driver.findElement(By.id("uh-search-button"));
+		WebElement searchBox = driver.findElement(By.id("header-search-input"));
+		WebElement searchButton = driver.findElement(By.id("header-desktop-search-button"));
 
 		searchBox.clear();
 		searchBox.sendKeys(topic);
@@ -75,13 +75,15 @@ public class YahooSearchMethods {
 			System.out.println("Ese browser no existe");
 			System.exit(-1);
 		}
-		driver.manage().timeouts().implicitlyWait(30,  TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10,  TimeUnit.SECONDS); 
 		driver.get(url);
 
 	}
 	
 	private static void closeBrowser() {
 		driver.close();
+		driver.quit();
+		
 		
 	}
 
