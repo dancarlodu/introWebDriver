@@ -16,7 +16,7 @@ public class YahooSearchMethods {
 	static WebDriver driver;
 
 	public static void main(String[] args) {
-		setUp("xxx", "http://www.yahoo.com");
+		setUp("chrome", "http://www.yahoo.com");
 
 		searchYahoo("Selenium");
 		
