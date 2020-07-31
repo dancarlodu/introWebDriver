@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -16,8 +17,8 @@ import java.util.concurrent.TimeUnit;
 public class WaitTest {
 
     public static void main(String[] args) {
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        WebDriver driver = new FirefoxDriver();
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
         driver.get("http://www.wikipedia.org/");
 

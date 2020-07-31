@@ -13,7 +13,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.Select;
-import java.util.concurrent.TimeUnit;
 
 public class LoginAuditor {
 	
@@ -25,33 +24,76 @@ public class LoginAuditor {
 		// TODO Auto-generated method stub
 		
 		
-		for (int i = 0; i < 3 ; i++) {			
+			
 		
+			for (int i = 0; i < 3 ; i++) {
+			
+			setUp ("firefox","http://www.auditor.net.co/auditor/");
 		
-		setUp ("chrome","http://www.auditor.net.co/auditor/");
-		
-		loginAuditor("hectordc","12aaju","CIUDAD PEREIRA");
-		
-		validacion();
-		
-		//salirAuditor();	
-		
+			loginAuditor("hectordc","12aaju","PEREIRA ESPECIALIZADO MAC");
+			
+			validacion();
+			
+			salirAuditor();		
 				
-		System.out.println("Caso de prueba exitoso: "+i);
+			System.out.println("Caso de prueba exitoso: "+i);
+			
+			closeBrowser();
 		
+			
 		}
-		
-		closeBrowser();	
+			
 	
 		
-	}	
+	}
+	
+	private static void setUp (String browser, String url) {
+		switch(browser) {
+		case "chrome":
+			//System.setProperty("webdriver.chrome.driver", "/usr/jnavarro/test");
+			driver = new ChromeDriver();
+			break;
+		case "firefox":				
+			driver = new FirefoxDriver();
+			break;
+		case "ie":
+			driver = new InternetExplorerDriver();
+			break;
+		default:
+			System.out.println("Ese browser no existe");
+			System.exit(-1);
+		}
+		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(20,  TimeUnit.SECONDS); 
+		driver.get(url);
+		
+		
+		
+		
+
+	}
 		private static void salirAuditor() {
 		// TODO Auto-generated method stub
 			
+			WebDriverWait wait = new WebDriverWait(driver, 30);
+			wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(0));
+			
+			//driver.switchTo().frame(0);
+			WebElement validacionIngreso = driver.findElement(By.xpath("//*[@id=\"pagSuperior:lblUsuario\"]"));
+			validacionIngreso.getText();			
+			
+			
+			if(validacionIngreso.equals("HECTOR DANIEL CARDONA - PEREIRA ESPECIALIZADO MAC (PEREIRA)"))
+					 
+				System.out.println("Error ingreso ! ");
+					
+			else 
+				System.out.println("Se ingreso correctamente");
+			
 			// Click en el botón salir
-			//Thread.sleep(4000);
-			//new WebDriverWait(driver, 10).wait.until(ExpectedConditions.alertIsPresent());
-			driver.switchTo().frame("topFrame");			
+			//Thread.sleep(15000);			
+			//driver.switchTo().frame("topFrame");
+			//driver.switchTo().frame(0);
 			WebElement botonSalir = driver.findElement(By.xpath("//input[@id='pagSuperior:btnSalir2']"));
 			botonSalir.click();
 			
@@ -67,7 +109,7 @@ public class LoginAuditor {
 		
 	}
 		
-		private static void loginAuditor(String usuario, String password, String caf) throws InterruptedException {
+		private static void loginAuditor(String usuario, String password, String caf)  {
 		// TODO Auto-generated method stub
 			
 			
@@ -78,19 +120,36 @@ public class LoginAuditor {
 			campoUsuario.clear();
 			campoUsuario.sendKeys(usuario);
 			
+			
 			// Ingreso de la contraseña			
 			WebElement campoPassword = driver.findElement(By.id("pagLogin:txtClave"));
 			campoPassword.clear();
-			campoPassword.sendKeys(password);
+			campoPassword.sendKeys(password);			
 			
 			
 			// Selección del CAF
-			driver.findElement(By.xpath("//input[@id='pagLogin:txtCafcomboboxButton']")).click();
+			WebElement botonSeleccionCaf = driver.findElement(By.xpath("//input[@id='pagLogin:txtCafcomboboxButton']"));
+			botonSeleccionCaf.click();
 			WebElement campoCaf = driver.findElement(By.name("pagLogin:txtCafcomboboxField"));
-			//Thread.sleep(5000);
-			//campoCaf.clear();
+			campoCaf.clear();
 			campoCaf.sendKeys(caf);
-			driver.findElement(By.cssSelector(".rich-combobox-item-selected")).click();
+			
+			//Ingresar del CAF
+			WebElement botonIngresar = driver.findElement(By.id("pagLogin:btnIngresar")); 
+			botonIngresar.click(); 
+			
+			
+			
+			
+			
+			
+		
+			
+			
+			
+		
+			//WebElement seleccionCaf = driver.findElement(By.cssSelector(".rich-combobox-item-selected"));
+			//seleccionCaf.click();
 			//myWaitVar.until(ExpectedConditions.elementToBeSelected(By.cssSelector(".rich-combobox-item-selected"))).click();
 			
 			
@@ -104,22 +163,25 @@ public class LoginAuditor {
 		
 			
 							
-			/*
-			 * String campoCafValidacion = campoCaf.getAttribute("value");
-			 * if(campoCafValidacion.contentEquals(caf)) {
-			 * System.out.println("El caf se ingreso correctamente ! " +
-			 * campoCafValidacion);
-			 * 
-			 * WebDriverWait myWaitVar = new WebDriverWait(driver, 20);
-			 * myWaitVar.until(ExpectedConditions.elementToBeClickable
-			 * (By.id("pagLogin:btnIngresar"))).click();
-			 * 
-			 * //WebElement botonIngresar =
-			 * driver.findElement(By.id("pagLogin:btnIngresar")); //botonIngresar.click();
-			 * 
-			 * } else{ System.out.println("El caf no se ingreso correctamente" +
-			 * campoCafValidacion); }
-			 */
+		
+			
+				/*
+				 * WebElement advertenciaIngreso =
+				 * driver.findElement(By.xpath("//*[@id=\"pagLogin:error\"]"));
+				 * if(advertenciaIngreso.
+				 * equals("El caf ingresado no está permitido para éste usuario")) {
+				 * 
+				 * System.out.println("Error selección CAF ! ");
+				 * 
+				 * 
+				 * } else {
+				 * 
+				 * System.out.println("El caf se ingreso correctamente"); WebElement
+				 * botonIngresar = driver.findElement(By.id("pagLogin:btnIngresar"));
+				 * botonIngresar.click();
+				 * 
+				 * }
+				 */
 			
 			
 			//driver.findElement(By.id("pagLogin:txtCafcomboboxField")).sendKeys(caf);
@@ -173,35 +235,16 @@ public class LoginAuditor {
 			// pagLogin:txtCafcomboboxValue
 		
 	}
+		
 		private static void validacion() {
 		// TODO Auto-generated method stub
 		
 	}
-		private static void setUp (String browser, String url) {
-			switch(browser) {
-			case "chrome":
-				//System.setProperty("webdriver.chrome.driver", "/usr/jnavarro/test");
-				driver = new ChromeDriver();
-				break;
-			case "firefox":
-				
-				driver = new FirefoxDriver();
-				break;
-			case "ie":
-				driver = new InternetExplorerDriver();
-				break;
-			default:
-				System.out.println("Ese browser no existe");
-				System.exit(-1);
-			}
-			driver.manage().timeouts().implicitlyWait(30,  TimeUnit.SECONDS); 
-			driver.get(url);
-
-		}
+		
 		
 		private static void closeBrowser() {		
 			
-			driver.close();
+			//driver.close();
 			driver.quit();
 			
 			
