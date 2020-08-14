@@ -25,7 +25,7 @@ public class LoginAuditor {
 		
 			setUp ("firefox","http://www.auditor.net.co/auditor/");
 			
-			for (int i = 0; i < 5 ; i++) {
+			for (int i = 0; i < 10 ; i++) {
 		
 				loginAuditor("hectordc","12aaju","CIUDAD PEREIRA");
 				
@@ -109,7 +109,7 @@ public class LoginAuditor {
 		// TODO Auto-generated method stub
 			
 						
-			//WebDriverWait myWaitVar = new WebDriverWait(driver, 30);
+			WebDriverWait myWaitVar = new WebDriverWait(driver, 10);
 			
 			driver.switchTo().defaultContent();
 			
@@ -129,16 +129,26 @@ public class LoginAuditor {
 			campoPassword.sendKeys(password);			
 			
 			
-			// Selección del CAF
-			WebElement botonSeleccionCaf = driver.findElement(By.xpath("//input[@id='pagLogin:txtCafcomboboxButton']"));
-			botonSeleccionCaf.click();
-			WebElement campoCaf = driver.findElement(By.name("pagLogin:txtCafcomboboxField"));
-			campoCaf.clear();
-			campoCaf.sendKeys(caf);	
+			/*
+			 * // Selección del CAF WebElement botonSeleccionCaf =
+			 * driver.findElement(By.xpath("//input[@id='pagLogin:txtCafcomboboxButton']"));
+			 * botonSeleccionCaf.click(); WebElement campoCaf =
+			 * driver.findElement(By.name("pagLogin:txtCafcomboboxField"));
+			 * campoCaf.clear(); campoCaf.sendKeys(caf);
+			 */
 			
 			//WebElement seleccionCaf = driver.findElement(By.cssSelector(".rich-combobox-item-selected"));
 			//seleccionCaf.click();
 			//myWaitVar.until(ExpectedConditions.elementToBeSelected(By.cssSelector(".rich-combobox-item-selected"))).click();
+			
+			// Selección del CAF (Otra manera)
+			WebElement botonSeleccionCaf = driver.findElement(By.xpath("//input[@id='pagLogin:txtCafcomboboxButton']"));
+			botonSeleccionCaf.click();
+			WebElement campoCaf = myWaitVar.until(ExpectedConditions.visibilityOfElementLocated(By.name("pagLogin:txtCafcomboboxField")));			
+			campoCaf.click();			
+			campoCaf.sendKeys(caf);
+		
+					
 	
 				
 			
@@ -157,9 +167,8 @@ public class LoginAuditor {
 				WebElement mensajeAdvertencia = driver.findElement(By.xpath("//*[contains (@title, 'Advertencia:')]"));					
 		
 					System.out.println(mensajeAdvertencia.getText());
-					System.out.println("NO ingreso al CAF !");
-					System.exit(-1);
-					closeBrowser();
+					System.out.println("NO ingreso al CAF !");					
+					//closeBrowser();
 					
 				} else {
 					System.out.println("Ingresando al CAF ..."); 
